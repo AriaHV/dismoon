@@ -13,33 +13,41 @@ public class Crop {
     // Time at dehydration in miliseconds
     private long dehydrationTime;
 
-    public Crop(Seed seed) {
+    public Crop(Seed seed, long currentTime) {
         this.seed = seed;
-        this.plant();
+        this.plant(currentTime);
     }
 
-    /* Waters a crop. Setting its dehydrationTime */
-    public void water() {
-        dehydrationTime = System.currentTimeMillis() + seed.getDehydrationTime();
+    /**
+     *  Waters a crop. Setting its dehydrationTime
+     */
+    public void water(long currentTime) {
+        dehydrationTime = currentTime + seed.getDehydrationTime();
     }
 
-    /* Plants a seed and waters it. Setting its maturationTime and dehydrationTime */
-    public void plant() {
-        maturationTime = System.currentTimeMillis() + seed.getMaturationTime();
-        water();
+    /**
+     * Plants a seed and waters it. Setting its maturationTime and dehydrationTime
+     */
+    public void plant(long currentTime) {
+        maturationTime = currentTime + seed.getMaturationTime();
+        water(currentTime);
     }
 
-    /* Indicates whether a crop is dead due to dehydration. */
-    public boolean isDead() { ;
-        if (System.currentTimeMillis() < dehydrationTime) return false;
+    /**
+     * Indicates whether a crop is dead due to dehydration.
+     */
+    public boolean isDead(long currentTime) { ;
+        if (currentTime < dehydrationTime) return false;
         if (maturationTime < dehydrationTime) return false;
         return true;
     }
 
-    /* Indicates whether a crop is mature. */
-    public boolean isMature() {
-        if (isDead()) return false;
-        if (System.currentTimeMillis() < maturationTime) return false;
+    /**
+     * Indicates whether a crop is mature.
+     */
+    public boolean isMature(long currentTime) {
+        if (isDead(currentTime)) return false;
+        if (currentTime < maturationTime) return false;
         return true;
     }
 }
